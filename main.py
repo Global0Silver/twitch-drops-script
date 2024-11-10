@@ -14,7 +14,7 @@ try:
 except:#writes default settings if they are missing
    config['SETTINGS'] ={'//leave token blank to be asked for it during runtime': None,
                      'Secret token':'',
-                     'Watch time': '3600',
+                     'Watch time': '3800',
                      'Live check cooldown': '360',
                      'Check if drops are enabled': '1',
                      '//leave type blank for all drops': None,
@@ -100,7 +100,7 @@ while True:# if if if if
  if all_equal == True:
     print("Done")
     break
- print ("-------")
+ print ("---------")
  #print (twitch_streamers)
  for i in range(len(twitch_streamers)):
 
