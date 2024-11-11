@@ -9,6 +9,10 @@ Logs in to twitch via auth token(cookie)<br/>
 * multidimentional list(basically means that you can group streamers(1 item - 2 streamers that drop it)
 * configurable
 * simple to use
+## V2.1
+* added firefox support
+* added headless mode support
+* disabled image loading for performancece
 ## Requirements
 ```
 pip install selenium
