@@ -69,7 +69,7 @@ def watch_stream(twitch_stream,watch_time):
  if check_drop_status(check_drop,drop_type) == False:#checks if drops are enabled
     driver.get("data:, waiting for someone to go live")#opens a blank page
     return False
- countdown(3610)
+ countdown(watch_time)
  return True    
  
  
