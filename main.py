@@ -14,11 +14,13 @@ try:
 except:#writes default settings if they are missing
    config['SETTINGS'] ={'//leave token blank to be asked for it during runtime': None,
                      'Secret token':'',
-                     'Watch time': '3800',
+                     'Watch time': '3700',
                      'Live check cooldown': '360',
                      'Check if drops are enabled': '1',
                      '//leave type blank for all drops': None,
-                     'Type of drop': 'Rust'}
+                     'Type of drop': 'Rust',
+                     'browser(Chrome, firefox)': 'Chrome',
+                     'headless mode' : '0'}
    print("settings not found, attempting to create")
    config_data = config["SETTINGS"]
    with open('config.ini', 'w') as configfile:
@@ -30,11 +32,29 @@ check_drop = int(config_data['check if drops are enabled'])
 drop_type = config_data['type of drop']
 watch_time = int(config_data['watch time'])
 live_check_cooldown = int(config_data['Live check cooldown'])
+browser_ofchoice = config_data['browser(Chrome, firefox)']
+headless = int(config_data["headless mode"])
+
 
 if secret == '':
  secret = input("enter your twitch auth token: ")
  os.system('cls' if os.name == 'nt' else 'clear')
-driver = webdriver.Chrome()
+ 
+if (browser_ofchoice.lower()) == "chrome":
+ chrome_options = webdriver.ChromeOptions()
+ if headless == 1:
+  chrome_options.add_argument("--headless")#makes window invisible
+ prefs = {"profile.managed_default_content_settings.images": 2}#disables images
+ chrome_options.add_experimental_option("prefs", prefs)
+ driver = webdriver.Chrome(options=chrome_options)
+elif (browser_ofchoice.lower()) == "firefox":
+ firefox_options = webdriver.FirefoxOptions()
+ if headless == 1:
+   firefox_options.add_argument("-headless")
+ firefox_options.set_preference("permissions.default.image", 2)
+ driver = webdriver.Firefox(options=firefox_options)
+ 
+
 driver.get("https://www.twitch.tv")
 driver.add_cookie({"name" : "auth-token", "value" : secret})
 
@@ -54,7 +74,7 @@ def check_if_live(twitch_streamers):
     return True
  else:
     print(twitch_streamers + ' is not live')
-    return  False
+    return False
     
  
 def watch_stream(twitch_stream,watch_time):
@@ -103,7 +123,6 @@ while True:# if if if if
  print ("---------")
  #print (twitch_streamers)
  for i in range(len(twitch_streamers)):
-
         for j in range(len(twitch_streamers[i])):
             if twitch_streamers[i] == "0":#ignores
                 break
@@ -116,3 +135,4 @@ while True:# if if if if
         if twitch_streamers[i] == twitch_streamers[-1]:#reduces request spam
              print("checked everyone. Sleeping to prevent spam")
              countdown(live_check_cooldown)
+driver.quit()
