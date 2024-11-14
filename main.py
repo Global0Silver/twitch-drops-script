@@ -46,14 +46,15 @@ if (browser_ofchoice.lower()) == "chrome":
   chrome_options.add_argument("--headless")#makes window invisible
  prefs = {"profile.managed_default_content_settings.images": 2}#disables images
  chrome_options.add_experimental_option("prefs", prefs)
+ chrome_options.add_argument("--mute-audio")#mutes audio
  driver = webdriver.Chrome(options=chrome_options)
 elif (browser_ofchoice.lower()) == "firefox":
  firefox_options = webdriver.FirefoxOptions()
+ firefox_options.set_preference("media.volume_scale", "0.0")#mutes audio
  if headless == 1:
    firefox_options.add_argument("-headless")
  firefox_options.set_preference("permissions.default.image", 2)
  driver = webdriver.Firefox(options=firefox_options)
- 
 
 driver.get("https://www.twitch.tv")
 driver.add_cookie({"name" : "auth-token", "value" : secret})
