@@ -13,6 +13,7 @@ Logs in to twitch via auth token(cookie)<br/>
 * added firefox support
 * added headless mode support
 * disabled image loading for performance
+* disabled audio
 ## Requirements
 ```
 pip install selenium
