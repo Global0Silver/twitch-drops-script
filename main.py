@@ -93,7 +93,6 @@ def watch_stream(twitch_stream,watch_time):
  countdown(watch_time)
  return True    
  
- 
 def check_drop_status(check_drop,drop_type):
  if check_drop == 0:
    return True
@@ -117,12 +116,11 @@ with open('streamer_list.txt', 'r') as ins:#loads from txt to list
     twitch_streamers = [[n for n in line.split()] for line in ins]
 
 while True:# if if if if
- all_equal = all(x == twitch_streamers[0] for x in twitch_streamers)
- if all_equal == True:
+ #print (twitch_streamers) #debug
+ if all(v == '0' for v in twitch_streamers) == True:
     print("Done")
     break
  print ("---------")
- #print (twitch_streamers)
  for i in range(len(twitch_streamers)):
         for j in range(len(twitch_streamers[i])):
             if twitch_streamers[i] == "0":#ignores
@@ -132,8 +130,6 @@ while True:# if if if if
                 if watch_stream(twitch_streamers[i][j],watch_time) == True:
                     twitch_streamers[i] = "0"#marks as completed
                     print("Done watching")
-                    break
-        if twitch_streamers[i] == twitch_streamers[-1]:#reduces request spam
-             print("checked everyone. Sleeping to prevent spam")
-             countdown(live_check_cooldown)
+ print("checked everyone. Sleeping to prevent spam")
+ countdown(live_check_cooldown)
 driver.quit()
