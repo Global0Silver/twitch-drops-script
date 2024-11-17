@@ -31,7 +31,8 @@ https://www.twitch.tv/streamer5 https://www.twitch.tv/streamer6
 Basically 1 line = 1 drop
 ## config.ini
 type of drop = ''<br/>
-![image](https://github.com/user-attachments/assets/1b212ccf-7a9c-4afb-be32-e1977b0050d3)<br/>
+![image](https://github.com/user-attachments/assets/1b212ccf-7a9c-4afb-be32-e1977b0050d3)<br/>![image](https://github.com/user-attachments/assets/2892d6cd-0553-4121-a4a0-8ab69d13641d)
+
 will detect the type of drop by the words in the large red circle<br/>
 the drop down menu will not apear if you have claimed the drop or if drops are disabled
 ### Screenshot
