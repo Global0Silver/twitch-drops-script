@@ -96,15 +96,20 @@ def watch_stream(twitch_stream,watch_time):
 def check_drop_status(check_drop,drop_type):
  if check_drop == 0:
    return True
- try: #CSS selecttors
+ try: #CSS selectors
     driver.find_element(By.CSS_SELECTOR,'#live-page-chat > div > div > div.Layout-sc-1xcs6mc-0.iTiPMO.chat-shell.chat-shell__expanded > div > div > section > div > div:nth-child(3) > div.InjectLayout-sc-1i43xsx-0.dUREKt > div > div.Layout-sc-1xcs6mc-0 > div > div.simplebar-scroll-content.community-highlight-stack__scroll-area--disable > div > div > div.ScTransitionBase-sc-hx4quq-0.kHfhAq.tw-transition > div > div > div > div > div > div > div.highlight__click-target > div > div > div.Layout-sc-1xcs6mc-0.cVwZw > button').click()
-    time.sleep(1)
-    dropsenabled=driver.find_element(By.CSS_SELECTOR,'#live-page-chat > div > div > div.Layout-sc-1xcs6mc-0.iTiPMO.chat-shell.chat-shell__expanded > div > div > section > div > div:nth-child(3) > div.InjectLayout-sc-1i43xsx-0.dUREKt > div > div.Layout-sc-1xcs6mc-0.eKDZrJ > div.community-highlight-stack__scroll-area--disable.scrollable-area.scrollable-area--suppress-scroll-x > div.simplebar-scroll-content.community-highlight-stack__scroll-area--disable > div > div > div.ScTransitionBase-sc-hx4quq-0.kHfhAq.tw-transition > div > div > div:nth-child(1) > div > div > div > div > div > div.ScTransitionBase-sc-hx4quq-0.dtAmne.tw-transition > div > div.Layout-sc-1xcs6mc-0.iCNEPM > div > div:nth-child(1) > p')
-    print(dropsenabled.text) 
- except NoSuchElementException:#trys to find if drops are enabled for rust
+    
+    if drop_type != '':# not pretty but its better because if disabled it doesnt try to get the text as before
+        time.sleep(1)
+        dropsenabled=driver.find_element(By.CSS_SELECTOR,'#live-page-chat > div > div > div.Layout-sc-1xcs6mc-0.iTiPMO.chat-shell.chat-shell__expanded > div > div > section > div > div:nth-child(3) > div.InjectLayout-sc-1i43xsx-0.dUREKt > div > div.Layout-sc-1xcs6mc-0.eKDZrJ > div.community-highlight-stack__scroll-area--disable.scrollable-area.scrollable-area--suppress-scroll-x > div.simplebar-scroll-content.community-highlight-stack__scroll-area--disable > div > div > div.ScTransitionBase-sc-hx4quq-0.kHfhAq.tw-transition > div > div > div:nth-child(1) > div > div > div > div > div > div.ScTransitionBase-sc-hx4quq-0.dtAmne.tw-transition > div > div.Layout-sc-1xcs6mc-0.iCNEPM > div > div:nth-child(1) > p')
+    
+        if dropsenabled.text == "Get rewards by:": # finds drop type in other location
+            dropsenabled=driver.find_element(By.CSS_SELECTOR,'#live-page-chat > div > div > div.Layout-sc-1xcs6mc-0.iTiPMO.chat-shell.chat-shell__expanded > div > div > section > div > div:nth-child(3) > div.InjectLayout-sc-1i43xsx-0.dUREKt > div > div.Layout-sc-1xcs6mc-0.eKDZrJ > div > div.simplebar-scroll-content.community-highlight-stack__scroll-area--disable > div > div > div.ScTransitionBase-sc-hx4quq-0.kHfhAq.tw-transition > div > div > div > div > div > div > div > div > div.ScTransitionBase-sc-hx4quq-0.dtAmne.tw-transition > div > div.Layout-sc-1xcs6mc-0.iCNEPM > div > div:nth-child(1) > div > div > ul > li:nth-child(2) > p')
+        print(dropsenabled.text)
+ except NoSuchElementException:
     print("drops are disabled/already been claimed")
     return False    
- if drop_type in dropsenabled.text or drop_type == '':
+ if drop_type == '' or drop_type.lower()  in dropsenabled.text.lower():
     print(drop_type ,'drops are enabled')
     return True
  else:
@@ -116,7 +121,7 @@ with open('streamer_list.txt', 'r') as ins:#loads from txt to list
     twitch_streamers = [[n for n in line.split()] for line in ins]
 
 while True:# if if if if
- #print (twitch_streamers) #debug
+ #print (twitch_streamers) 
  if all(v == '0' for v in twitch_streamers) == True:
     print("Done")
     break
