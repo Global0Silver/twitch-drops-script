@@ -1,6 +1,6 @@
 Python script
 Only checks if the given streamer is live 
-watches the stream for 1 hours. Very basic.<br/>
+watches the stream for given time. Very basic.<br/>
 Logs in to twitch via auth token(cookie)<br/>
 # V2
 * Complete rewrite
