@@ -57,6 +57,7 @@ elif (browser_ofchoice.lower()) == "firefox":
  driver = webdriver.Firefox(options=firefox_options)
 
 driver.get("https://www.twitch.tv")
+driver.execute_script("window.localStorage.setItem('video-quality', '{\"default\":\"160p30\"}' );") #sets video quality to 160p
 driver.add_cookie({"name" : "auth-token", "value" : secret})
 
 def countdown(t): 
@@ -119,22 +120,23 @@ def check_drop_status(check_drop,drop_type):
 
 with open('streamer_list.txt', 'r') as ins:#loads from txt to list
     twitch_streamers = [[n for n in line.split()] for line in ins]
-
 while True:# if if if if
  #print (twitch_streamers) 
- if all(v == '0' for v in twitch_streamers) == True:
+ if twitch_streamers == []:
     print("Done")
     break
- print ("---------")
+ print ("---------------")
  for i in range(len(twitch_streamers)):
-        for j in range(len(twitch_streamers[i])):
-            if twitch_streamers[i] == "0":#ignores
+    if twitch_streamers[i] == 0:#ignores
+        continue
+    for j in range(len(twitch_streamers[i])): 
+        if check_if_live(twitch_streamers[i][j]) == True:  
+            print ("watching",twitch_streamers[i][j])
+            if watch_stream(twitch_streamers[i][j],watch_time) == True:
+                twitch_streamers[i] = 0 #marks as completed
+                print("Done watching")
                 break
-            if check_if_live(twitch_streamers[i][j]) == True:  
-                print ("watching",twitch_streamers[i][j])
-                if watch_stream(twitch_streamers[i][j],watch_time) == True:
-                    twitch_streamers[i] = "0"#marks as completed
-                    print("Done watching")
  print("checked everyone. Sleeping to prevent spam")
+ twitch_streamers = [x for x in twitch_streamers if x != 0] #removes all 0 from the list
  countdown(live_check_cooldown)
 driver.quit()
